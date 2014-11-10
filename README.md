@@ -1,4 +1,4 @@
-nice_chef_formatter
+Nice Chef Formatter
 ===================
 
 Formatter for chef with execution times for every cookbook/recipe and simplified output.
