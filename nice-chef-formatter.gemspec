@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "nice-chef-formatter"
-  s.version     = "0.0.1"
+  s.version     = "0.0.3"
   s.authors     = ["Nadir Lloret"]
   s.email       = ["nadir.lloret@livedrive.com"]
   s.homepage    = "https://github.com/nadirollo/nice_chef_formatter"
@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+  s.add_runtime_dependency "rainbow"
 end

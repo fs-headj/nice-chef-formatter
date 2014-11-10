@@ -1,4 +1,6 @@
 require 'chef/formatters/minimal'
+require 'chef/formatters/coloredputter'
+require 'rainbow'
 
 class Chef
   module Formatters
@@ -9,22 +11,14 @@ class Chef
       # Override parent class
       def initialize(out, err)
         super
-        livedrive_title = "
-888      d8b                   8888888b.          d8b
-888      Y8P                   888   Y88b         Y8P
-888                            888    888
-888      888 888  888  .d88b.  888    888 888d888 888 888  888  .d88b.
-888      888 888  888 d8P  Y8b 888    888 888P    888 888  888 d8P  Y8b
-888      888 Y88  88P 88888888 888    888 888     888 Y88  88P 88888888
-888      888  Y8bd8P  Y8b.     888  .d88P 888     888  Y8bd8P  Y8b.
-88888888 888   Y88P     Y8888  8888888P   888     888   Y88P     Y8888
-"
-        puts livedrive_title
+        @output = Coloredputter.new(out, err)
+
       end
 
       # Called at the very start of a Chef Run
       def run_start(version)
         puts "Starting Chef Client, version #{version}"
+        @initial_time = Time.now.to_f
       end
 
       # Called before the cookbook collection is fetched from the server.
@@ -48,11 +42,11 @@ class Chef
 
       def converge_start(run_context)
         puts "Converge #{run_context.resource_collection.all_resources.size} resources"
-        @recipe_start_time = 0
       end
 
       def converge_complete
-        puts 'System converged'
+        total_exec_time = Time.now.to_f - @initial_time
+        puts "System converged in #{total_exec_time.round(2)}"
       end
 
       # Called when cookbook loading starts.
@@ -64,21 +58,41 @@ class Chef
         if resource.cookbook_name && resource.recipe_name
           resource_recipe = "#{resource.cookbook_name}::#{resource.recipe_name}"
         else
+          puts "#{resource.cookbook_name}::#{resource.recipe_name}"
           resource_recipe = "<wow, so much LWRP>"
         end
 
         if resource_recipe != @current_recipe
+          if @recipe_start_time
+            recipe_exec_time = Time.now.to_f - @recipe_start_time
+            puts "(#{recipe_exec_time.round(3)} secs)"
+          end
           puts "Recipe: #{resource_recipe}"
           @current_recipe = resource_recipe
           @recipe_start_time = Time.now.to_f
         end
-        if @resource_start_time
-          resource_exec_time = Time.now.to_f - @resource_start_time
-        else
-          resource_exec_time = 0
-        end
-        puts "  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)"
         @resource_start_time = Time.now.to_f
+      end
+
+      # Called when a resource action has been skipped b/c of a conditional
+      def resource_skipped(resource, action, conditional)
+        # Output should be blue (Skipped)
+        resource_exec_time = Time.now.to_f - @resource_start_time
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'blue')
+      end
+
+      # Called when a resource has no converge actions, e.g., it was already correct.
+      def resource_up_to_date(resource, action)
+        # Output should be green
+        resource_exec_time = Time.now.to_f - @resource_start_time
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'green')
+      end
+
+      # Called after a resource has been completely converged.
+      def resource_updated(resource, action)
+        # Output should be yellow (changes are applied)
+        resource_exec_time = Time.now.to_f - @resource_start_time
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'yellow')
       end
     end
   end
