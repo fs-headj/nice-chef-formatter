@@ -2,12 +2,12 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "nice-chef-formatter"
-  s.version     = "0.0.3"
+  s.version     = "0.0.1"
   s.authors     = ["Nadir Lloret"]
   s.email       = ["nadir.lloret@livedrive.com"]
   s.homepage    = "https://github.com/nadirollo/nice_chef_formatter"
   s.summary     = %q{Nice Chef log formatter}
-  s.description = %q{Clean and simple output with execution times.}
+  s.description = %q{Simple formatted output for chef with execution times and color for resource action results}
 
   s.rubyforge_project = "nice-chef-formatter"
 
