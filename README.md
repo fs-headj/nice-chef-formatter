@@ -1,6 +1,6 @@
 Nice Chef Formatter
 ===================
-
+[![Nice!](http://postimg.org/image/kzza2lr7t/)]
 Formatter for chef with execution times for every cookbook/recipe and simplified output.
 
 Color codes:
