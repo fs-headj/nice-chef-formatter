@@ -1,6 +1,5 @@
 require 'chef/formatters/minimal'
 require 'chef/formatters/coloredputter'
-require 'rainbow'
 
 class Chef
   module Formatters

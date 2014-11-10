@@ -1,5 +1,4 @@
 require 'chef/formatters/base'
-require 'rainbow'
 
 
 class Chef
@@ -12,6 +11,8 @@ class Chef
           get_std_handle = Win32API.new("kernel32", "GetStdHandle", ['L'], 'L')
           @stdout = get_std_handle.call(-11)
           @set_console_txt_attrb = Win32API.new("kernel32", "SetConsoleTextAttribute", ['L','N'], 'I')
+        elsif OS.linux?
+          require 'rainbow'
         end
       end
 
