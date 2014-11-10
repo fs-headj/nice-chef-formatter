@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version     = "0.0.1"
   s.authors     = ["Nadir Lloret"]
   s.email       = ["nadir.lloret@livedrive.com"]
-  s.homepage    = "https://github.com/nadirollo/nice_chef_formatter"
+  s.homepage    = "https://github.com/nadirollo/nice-chef-formatter"
   s.summary     = %q{Nice Chef log formatter}
   s.description = %q{Simple formatted output for chef with execution times and color for resource action results}
 
