@@ -38,6 +38,7 @@ class Chef
       end
 
       def cookbook_sync_start(cookbook_count)
+        @sync_start_time = Time.now.to_f
         puts "Cookbook synchronization"
       end
 
@@ -48,7 +49,8 @@ class Chef
 
       # Called after all cookbooks have been sync'd.
       def cookbook_sync_complete
-        puts "Finish cookbook synchronization"
+        sync_exec_time = Time.now.to_f - @sync_start_time
+        puts "Finish cookbook synchronization (#{sync_exec_time.round(3)} secs)"
       end
 
       def converge_start(run_context)
@@ -65,12 +67,16 @@ class Chef
         puts "Compilation"
       end
 
+      # Called right after ohai runs.
+      def ohai_completed(node)
+        puts "Ohai comleted"
+      end
+
       def resource_action_start(resource, action, notification_type=nil, notifier=nil)
         if resource.cookbook_name && resource.recipe_name
           resource_recipe = "#{resource.cookbook_name}::#{resource.recipe_name}"
         else
-          puts "#{resource.cookbook_name}::#{resource.recipe_name}"
-          resource_recipe = "<wow, so much LWRP>"
+          resource_recipe = "#{resource.cookbook_name}"
         end
 
         if resource_recipe != @current_recipe
