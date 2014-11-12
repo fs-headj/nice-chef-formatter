@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "nice-chef-formatter"
-  s.version     = "0.0.3"
+  s.version     = "0.0.4"
   s.authors     = ["Nadir Lloret"]
   s.email       = ["nadir.lloret@livedrive.com"]
   s.homepage    = "https://github.com/nadirollo/nice-chef-formatter"
