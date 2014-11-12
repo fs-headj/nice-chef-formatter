@@ -1,5 +1,4 @@
 require 'chef/formatters/minimal'
-require 'chef/formatters/coloredputter'
 
 class Chef
   module Formatters
@@ -10,7 +9,6 @@ class Chef
       # Override parent class
       def initialize(out, err)
         super
-        @output = Coloredputter.new(out, err)
         livedrive_title = "
 =====================================================================
 =====================================================================
@@ -95,21 +93,21 @@ class Chef
       def resource_skipped(resource, action, conditional)
         # Output should be blue (Skipped)
         resource_exec_time = Time.now.to_f - @resource_start_time
-        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'blue')
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", :blue)
       end
 
       # Called when a resource has no converge actions, e.g., it was already correct.
       def resource_up_to_date(resource, action)
         # Output should be green
         resource_exec_time = Time.now.to_f - @resource_start_time
-        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'green')
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", :green)
       end
 
       # Called after a resource has been completely converged.
       def resource_updated(resource, action)
         # Output should be yellow (changes are applied)
         resource_exec_time = Time.now.to_f - @resource_start_time
-        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", 'yellow')
+        puts("  * #{resource} action #{action} (#{resource_exec_time.round(3)} secs)", :yellow)
       end
     end
   end
