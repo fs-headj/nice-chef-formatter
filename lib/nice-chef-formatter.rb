@@ -9,7 +9,7 @@ class Chef
       # Override parent class
       def initialize(out, err)
         super
-        livedrive_title = "
+        run_title = "
 =====================================================================
 =====================================================================
 
@@ -21,7 +21,7 @@ class Chef
 =====================================================================
 =====================================================================
 "
-        puts livedrive_title
+        puts run_title
       end
 
       # Called at the very start of a Chef Run
